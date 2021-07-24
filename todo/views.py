@@ -5,6 +5,7 @@ from .serializers import todoSerializer
 from .models import Todo
 import json
 
+
 @api_view(['GET'])
 def get_todos(request):
     todos = Todo.objects.all()
@@ -27,6 +28,9 @@ def create_todo(request):
 
 @api_view(['DELETE'])
 def delete_todo(request, id):
-    todo_to_delete = Todo.objects.get(_id=id)
-    todo_to_delete.delete()
+    try:
+        todo_to_delete = Todo.objects.get(_id=id)
+        todo_to_delete.delete()
+    except:
+        Response({'details': 'item does not exist'})
     return Response({"Details": "Successfully deleted"})
